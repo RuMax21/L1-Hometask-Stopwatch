@@ -1,0 +1,8 @@
+export const TIME_CONSTANTS = {
+  MILLISECONDS_PER_SECOND: 1000,
+  SECONDS_PER_MINUTE: 60,
+};
+
+export const STOPWATCH = {
+  UPDATE_INTERVAL_MS: 100,
+};
