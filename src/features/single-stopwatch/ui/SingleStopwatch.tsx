@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import './SingleStopwatch.scss';
-import type { SingleStopwatchProps } from '@/single-stopwatch/model/SingleStopwatch.types';
+import type { SingleStopwatchProps } from '@/features/single-stopwatch/model/SingleStopwatch.types';
 import { TIME_CONSTANTS, STOPWATCH } from '@/shared/constants';
 import Button from '@/shared/ui/Button';
 
