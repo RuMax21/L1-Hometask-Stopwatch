@@ -1,4 +1,4 @@
-import StopwatchList from '@/features/stopwatch-list';
+import StopwatchList from '@/features/StopwatchList';
 
 export default function HomePage() {
   return <StopwatchList />;
