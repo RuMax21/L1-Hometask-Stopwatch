@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './StopwatchList.scss';
 import Button from '@/shared/ui/Button';
-import SingleStopwatch from '@/features/single-stopwatch';
+import SingleStopwatch from '@/pages/HomePage/components/SingleStopwatch';
 
 export default function StopwatchList() {
   const [stopwatches, setStopwatches] = useState<number[]>([]);
