@@ -12,7 +12,7 @@ export default function SingleStopwatch({ onRemove }: SingleStopwatchProps) {
   const startTimeRef = useRef<number>(0);
   const remainingTimeRef = useRef<number>(0);
 
-  const handleStart = () => {
+  const handleStart = (): void => {
     if (isRunning) return;
 
     setIsRunning(true);
@@ -24,7 +24,7 @@ export default function SingleStopwatch({ onRemove }: SingleStopwatchProps) {
     }, STOPWATCH.UPDATE_INTERVAL_MS);
   };
 
-  const handlePause = () => {
+  const handlePause = (): void => {
     if (!isRunning) return;
 
     setIsRunning(false);
@@ -35,7 +35,7 @@ export default function SingleStopwatch({ onRemove }: SingleStopwatchProps) {
     }
   };
 
-  const handleReset = () => {
+  const handleReset = (): void => {
     setIsRunning(false);
     setTime(0);
 
