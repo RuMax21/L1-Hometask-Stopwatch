@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './StopwatchList.scss';
+import styles from './StopwatchList.module.scss';
 import Button from '@/shared/ui/Button';
 import SingleStopwatch from '@/pages/HomePage/components/SingleStopwatch';
 
@@ -16,20 +16,20 @@ export default function StopwatchList() {
   };
 
   return (
-    <div className="stopwatch-list">
-      <h1 className="stopwatch-list__title">Stopwatch</h1>
+    <div className={styles.stopwatchList}>
+      <h1 className={styles.title}>Stopwatch</h1>
 
       {stopwatches.length !== 0 ? (
-        <div className="stopwatch-list__items">
+        <div className={styles.items}>
           {stopwatches.map(stopwatch => (
             <SingleStopwatch key={stopwatch} onRemove={() => removeStopwatch(stopwatch)} />
           ))}
         </div>
       ) : (
-        <p className="stopwatch-list__empty">The stopwatch has not been added yet.</p>
+        <p className={styles.empty}>The stopwatch has not been added yet.</p>
       )}
 
-      <div className="stopwatch-list__add-button">
+      <div>
         <Button onClick={addStopwatch}>Add stopwatch</Button>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './SingleStopwatch.scss';
+import styles from './SingleStopwatch.module.scss';
 import type { SingleStopwatchProps } from '@/pages/HomePage/components/SingleStopwatch/model/SingleStopwatch.types';
 import { TIME_CONSTANTS, STOPWATCH } from '@/shared/constants';
 import Button from '@/shared/ui/Button';
@@ -42,32 +42,31 @@ export default function SingleStopwatch({ onRemove }: SingleStopwatchProps) {
 
     return () => {
       clearInterval(interval);
-      // }
     };
   }, [isRunning]);
 
   return (
-    <div className="stopwatch">
-      <h2 className="stopwatch__time">{formatTime(time)}</h2>
-      <div className="stopwatch__controls">
+    <div className={styles.stopwatch}>
+      <h2 className={styles.time}>{formatTime(time)}</h2>
+      <div className={styles.controls}>
         {!isRunning ? (
-          <Button onClick={handleStart} className="stopwatch__button stopwatch__button--start">
+          <Button onClick={handleStart} className={`${styles.button} ${styles.startButton}`}>
             {time ? 'Resume' : 'Start'}
           </Button>
         ) : (
-          <Button onClick={handlePause} className="stopwatch_button stopwatch__button--pause">
+          <Button onClick={handlePause} className={`${styles.button} ${styles.pauseButton}`}>
             Pause
           </Button>
         )}
         <Button
           onClick={handleReset}
           disabled={!time}
-          className="stopwatch__button stopwatch__button--reset"
+          className={`${styles.button} ${styles.resetButton}`}
         >
           Reset
         </Button>
         {onRemove && (
-          <Button onClick={onRemove} className="stopwatch__button stopwatch__button--remove">
+          <Button onClick={onRemove} className={`${styles.button} ${styles.removeButton}`}>
             Remove
           </Button>
         )}
