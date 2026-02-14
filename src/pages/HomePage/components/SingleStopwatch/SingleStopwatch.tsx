@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import './SingleStopwatch.scss';
 import type { SingleStopwatchProps } from '@/pages/HomePage/components/SingleStopwatch/model/SingleStopwatch.types';
 import { TIME_CONSTANTS, STOPWATCH } from '@/shared/constants';
@@ -8,43 +8,19 @@ export default function SingleStopwatch({ onRemove }: SingleStopwatchProps) {
   const [time, setTime] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
-  const intervalRef = useRef<number | null>(null);
-  const startTimeRef = useRef<number>(0);
-  const remainingTimeRef = useRef<number>(0);
-
   const handleStart = (): void => {
     if (isRunning) return;
-
     setIsRunning(true);
-
-    startTimeRef.current = Date.now() - remainingTimeRef.current;
-    intervalRef.current = setInterval(() => {
-      remainingTimeRef.current = Date.now() - startTimeRef.current;
-      setTime(remainingTimeRef.current);
-    }, STOPWATCH.UPDATE_INTERVAL_MS);
   };
 
   const handlePause = (): void => {
     if (!isRunning) return;
-
     setIsRunning(false);
-
-    remainingTimeRef.current = Date.now() - startTimeRef.current;
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
   };
 
   const handleReset = (): void => {
     setIsRunning(false);
     setTime(0);
-
-    remainingTimeRef.current = 0;
-    startTimeRef.current = 0;
-
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
   };
 
   const formatTime = (ms: number): string => {
@@ -56,12 +32,19 @@ export default function SingleStopwatch({ onRemove }: SingleStopwatchProps) {
   };
 
   useEffect(() => {
+    if (!isRunning) return;
+
+    const startTime = Date.now() - time;
+
+    const interval = setInterval(() => {
+      setTime(Date.now() - startTime);
+    }, STOPWATCH.UPDATE_INTERVAL_MS);
+
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      clearInterval(interval);
+      // }
     };
-  }, []);
+  }, [isRunning]);
 
   return (
     <div className="stopwatch">
