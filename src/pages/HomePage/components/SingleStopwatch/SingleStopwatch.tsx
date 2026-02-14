@@ -1,26 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from './SingleStopwatch.module.scss';
 import type { SingleStopwatchProps } from '@/pages/HomePage/components/SingleStopwatch/model/SingleStopwatch.types';
 import { TIME_CONSTANTS, STOPWATCH } from '@/shared/constants';
 import Button from '@/shared/ui/Button';
 
-export default function SingleStopwatch({ onRemove }: SingleStopwatchProps) {
-  const [time, setTime] = useState<number>(0);
-  const [isRunning, setIsRunning] = useState<boolean>(false);
-
+export default function SingleStopwatch({
+  id,
+  time,
+  isRunning,
+  onTimeChange,
+  onRunningChange,
+  onRemove,
+}: SingleStopwatchProps) {
   const handleStart = (): void => {
     if (isRunning) return;
-    setIsRunning(true);
+    onRunningChange(id, true);
   };
 
   const handlePause = (): void => {
     if (!isRunning) return;
-    setIsRunning(false);
+    onRunningChange(id, false);
   };
 
   const handleReset = (): void => {
-    setIsRunning(false);
-    setTime(0);
+    onRunningChange(id, false);
+    onTimeChange(id, 0);
   };
 
   const formatTime = (ms: number): string => {
@@ -37,7 +41,7 @@ export default function SingleStopwatch({ onRemove }: SingleStopwatchProps) {
     const startTime = Date.now() - time;
 
     const interval = setInterval(() => {
-      setTime(Date.now() - startTime);
+      onTimeChange(id, Date.now() - startTime);
     }, STOPWATCH.UPDATE_INTERVAL_MS);
 
     return () => {
