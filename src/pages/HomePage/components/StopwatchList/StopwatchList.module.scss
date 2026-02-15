@@ -1,0 +1,26 @@
+.stopwatchList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #f1f1f1;
+  margin: 0;
+}
+
+.empty {
+  font-size: 0.95rem;
+  color: #8a8a8a;
+  text-align: center;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
