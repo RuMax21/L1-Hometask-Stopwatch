@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import styles from './SingleStopwatch.module.scss';
 import type { SingleStopwatchProps } from '@/pages/HomePage/components/SingleStopwatch/model/SingleStopwatch.types';
-import { TIME_CONSTANTS, STOPWATCH } from '@/shared/constants';
+import { STOPWATCH } from '@/shared/constants';
+import { formatTime } from '@/shared/utils';
 import Button from '@/shared/ui/Button';
 
 export default function SingleStopwatch({
@@ -25,14 +26,6 @@ export default function SingleStopwatch({
   const handleReset = (): void => {
     onRunningChange(id, false);
     onTimeChange(id, 0);
-  };
-
-  const formatTime = (ms: number): string => {
-    const totalSeconds: number = Math.floor(ms / TIME_CONSTANTS.MILLISECONDS_PER_SECOND);
-    const minutes: number = Math.floor(totalSeconds / TIME_CONSTANTS.SECONDS_PER_MINUTE);
-    const seconds: number = totalSeconds % TIME_CONSTANTS.SECONDS_PER_MINUTE;
-    const milliseconds: number = Math.floor((ms % TIME_CONSTANTS.MILLISECONDS_PER_SECOND) / 10);
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
   };
 
   useEffect(() => {
