@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './StopwatchList.module.scss';
 import Button from '@/shared/ui/Button';
 import SingleStopwatch from '@/pages/HomePage/components/SingleStopwatch';
-import type { StopwatchStatus } from './model';
+import type { StopwatchStatus } from '@/shared/types';
 import { STORAGE_KEY } from '@/shared/constants';
 
 export default function StopwatchList() {
@@ -18,23 +18,17 @@ export default function StopwatchList() {
     return [];
   });
 
-  const addStopwatch = (): void => {
+  const addStopwatch = useCallback((): void => {
     setStopwatches(prev => [...prev, { id: Date.now(), time: 0, isRunning: false }]);
-  };
+  }, []);
 
-  const removeStopwatch = (id: number): void => {
+  const removeStopwatch = useCallback((id: number): void => {
     setStopwatches(prev => prev.filter(stopwatch => stopwatch.id !== id));
-  };
+  }, []);
 
-  const onTimeChange = (id: number, newTime: number): void => {
+  const onChange = (id: number, data: Partial<StopwatchStatus>): void => {
     setStopwatches(prev =>
-      prev.map(stopwatch => (stopwatch.id === id ? { ...stopwatch, time: newTime } : stopwatch))
-    );
-  };
-
-  const onRunningChange = (id: number, isRunning: boolean): void => {
-    setStopwatches(prev =>
-      prev.map(stopwatch => (stopwatch.id === id ? { ...stopwatch, isRunning } : stopwatch))
+      prev.map(stopwatch => (stopwatch.id === id ? { ...stopwatch, ...data } : stopwatch))
     );
   };
 
@@ -51,11 +45,8 @@ export default function StopwatchList() {
           {stopwatches.map(stopwatch => (
             <SingleStopwatch
               key={stopwatch.id}
-              id={stopwatch.id}
-              time={stopwatch.time}
-              isRunning={stopwatch.isRunning}
-              onTimeChange={onTimeChange}
-              onRunningChange={onRunningChange}
+              {...stopwatch}
+              onChange={onChange}
               onRemove={() => removeStopwatch(stopwatch.id)}
             />
           ))}

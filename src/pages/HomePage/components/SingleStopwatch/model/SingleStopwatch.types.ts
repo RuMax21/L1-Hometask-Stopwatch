@@ -1,8 +1,9 @@
+import type { StopwatchStatus } from "@/shared/types";
+
 export interface SingleStopwatchProps {
   id: number;
   time: number;
   isRunning: boolean;
-  onTimeChange: (id: number, newTime: number) => void;
-  onRunningChange: (id: number, isRunning: boolean) => void;
+  onChange: (id: number, data: Partial<StopwatchStatus>) => void;
   onRemove: () => void;
 }

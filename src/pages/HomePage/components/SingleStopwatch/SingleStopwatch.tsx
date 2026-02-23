@@ -1,31 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import styles from './SingleStopwatch.module.scss';
 import type { SingleStopwatchProps } from '@/pages/HomePage/components/SingleStopwatch/model/SingleStopwatch.types';
 import { STOPWATCH } from '@/shared/constants';
 import { formatTime } from '@/shared/utils';
 import Button from '@/shared/ui/Button';
 
-export default function SingleStopwatch({
+function SingleStopwatch({
   id,
   time,
   isRunning,
-  onTimeChange,
-  onRunningChange,
+  onChange,
   onRemove,
 }: SingleStopwatchProps) {
   const handleStart = (): void => {
     if (isRunning) return;
-    onRunningChange(id, true);
+    onChange(id, {isRunning: true});
   };
 
   const handlePause = (): void => {
     if (!isRunning) return;
-    onRunningChange(id, false);
+    onChange(id, {isRunning: false});
   };
 
   const handleReset = (): void => {
-    onRunningChange(id, false);
-    onTimeChange(id, 0);
+    onChange(id, {isRunning: false});
+    onChange(id, {time: 0});
   };
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function SingleStopwatch({
     const startTime = Date.now() - time;
 
     const interval = setInterval(() => {
-      onTimeChange(id, Date.now() - startTime);
+      onChange(id, { time: Date.now() - startTime });
     }, STOPWATCH.UPDATE_INTERVAL_MS);
 
     return () => {
@@ -71,3 +70,5 @@ export default function SingleStopwatch({
     </div>
   );
 }
+
+export default memo(SingleStopwatch);
