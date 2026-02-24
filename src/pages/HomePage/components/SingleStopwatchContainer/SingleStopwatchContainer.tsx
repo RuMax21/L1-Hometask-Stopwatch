@@ -1,5 +1,5 @@
 import { useEffect, memo } from 'react';
-import { STOPWATCH } from '@/shared/constants';
+import { STOPWATCH } from './constants';
 import SingleStopwatchView from "../SingleStopwatchView";
 import type { SingleStopwatchContainerProps } from './model';
 
@@ -24,6 +24,8 @@ function SingleStopwatchContainer({
     onChange(id, {isRunning: false});
     onChange(id, {time: 0});
   };
+
+  console.log('render', id);
 
   useEffect(() => {
     if (!isRunning) return;
