@@ -1,5 +1,5 @@
 import { useEffect, memo } from 'react';
-import { STOPWATCH } from '@/shared/constants';
+import { STOPWATCH } from './constants';
 import SingleStopwatchView from "../SingleStopwatchView";
 import type { SingleStopwatchContainerProps } from './model';
 
