@@ -25,6 +25,8 @@ function SingleStopwatchContainer({
     onChange(id, {time: 0});
   };
 
+  console.log('render', id);
+
   useEffect(() => {
     if (!isRunning) return;
 

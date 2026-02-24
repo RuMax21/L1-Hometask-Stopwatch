@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { StopwatchItem } from '@/shared/types';
 import { STORAGE_KEY } from '@/shared/constants';
 import StopwatchList from "../StopwatchListView/StopwatchListView";
+import ConfirmationModal from '@/shared/ui/ConfirmationModal';
 
 export default function StopwatchListContainer() {
   const [stopwatches, setStopwatches] = useState<StopwatchItem[]>(() => {
@@ -16,8 +17,11 @@ export default function StopwatchListContainer() {
     return [];
   });
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const addStopwatch = useCallback((): void => {
     setStopwatches(prev => [...prev, { id: Date.now(), time: 0, isRunning: false }]);
+    setIsModalOpen(false);
   }, []);
 
   const removeStopwatch = useCallback((id: number): void => {
@@ -30,16 +34,33 @@ export default function StopwatchListContainer() {
     );
   }, []);
 
+  const handleAddRequest = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleCancelRequest = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(stopwatches));
   }, [stopwatches]);
 
   return (
-    <StopwatchList
-      stopwatches={stopwatches}
-      onAdd={addStopwatch}
-      onRemove={removeStopwatch}
-      onChange={onChange}
-    />
+    <>
+      <StopwatchList
+        stopwatches={stopwatches}
+        onAdd={handleAddRequest}
+        onRemove={removeStopwatch}
+        onChange={onChange}
+      />
+      <ConfirmationModal 
+        isOpen={isModalOpen}
+        onCancel={handleCancelRequest}
+        onConfirm={addStopwatch}
+      >
+        Do you really wanna add a stopwatch?
+      </ConfirmationModal>
+    </>
   )
 };
